@@ -9,7 +9,6 @@ function factorial(numOne, numTwo){
         return numTwo * factorial(numTwo-1);
     }
 
-let numOne = 5;
 answer = factorial(numOne, numTwo)
 
 console.log("The factorial of " + numOne + " is " + answer);
