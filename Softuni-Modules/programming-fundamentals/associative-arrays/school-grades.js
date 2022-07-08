@@ -4,8 +4,6 @@ function solve(data) {
   for (let el of data) {
     let grades = el.split(" ");
     let student = grades.shift();
-    let setOfGrade = 
-    let gradeCount = 0;
     for (let i = 0; i < grades.length; i++) {
       sum += Number(grades[i]);
       gradeCount++;

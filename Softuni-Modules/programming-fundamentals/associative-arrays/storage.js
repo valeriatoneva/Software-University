@@ -4,8 +4,8 @@ function solve(data) {
   for (let el of data) {
     let [items, quantity] = el.split(" ");
 
-    if (storage.has(items)) {
-      let oldQuantity = storage.get(items); // vrushta stoinost za tozi produkt
+    if (storage.has(items)) { // proverqva me dali ima tozi kluch 
+      let oldQuantity = storage.get(items); // vrushta  value zad tozi produkt
       storage.set(items, oldQuantity + Number(quantity));
     } else {
       storage.set(items, Number(quantity));
