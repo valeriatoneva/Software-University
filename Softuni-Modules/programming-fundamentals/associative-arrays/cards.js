@@ -1,41 +1,51 @@
-function solve (input){
-    let players = new Map();
-    let enumCardPower = {
+function solve(input) {
+
+    let myMap = new Map();
+    let power = {
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "8": 8,
+        "9": 9,
+        "10": 10,
         "J": 11,
         "Q": 12,
         "K": 13,
-        "A": 14
-    };
-    
-    let enumCardType={
-        "S": 4,
-        "H": 3,
-        "D": 2,
-        "C": 1
-    };
-    
-    for(let el of input){
-      let [name, decks] = el.split(": ")
-      let pt = decks.split(", ");
-      let deckAsArr = [decks];
-      if(!players.has(name)){
-          players.set(name, new Set())
-      }
-      
-      for(let card of deckAsArr){
-          players.get(name).add(card);
-      }
+        "A": 14,
     }
     
-    for(let [key, value] of players){
+    let type = {
+        "S":4,
+        "H":2,
+        "D":2,
+        "C":1, 
+    }
+    
+    for(let el of input){
+        let [personName, pt] = el.split(": ");
+        let splitPt = pt.split(", ");
+        if(!myMap.has(personName)){
+            myMap.set(personName, new Set());
+        }
+        for(let el of splitPt){
+            myMap.get(personName).add(el) // vzemi seta, koito stoi zad imeto na choveka i dobavi segashniq el 
+        }
+    }
+    
+    for(let [key, value] of myMap){
         let sum = 0;
         for(let card of value){
-          let cardInfo = card.split("");
-          let cardType = cardInfo.pop();
-          let cardPower = cardInfo.join("");
-          let 
-          
+            let splitted = card.split("");
+            let cardType = splitted.pop();
+            let cardPower = splitted.join("")
+            let powerAsNum = power[cardPower]
+            let typeAsNum = type[cardType]
+            sum += typeAsNum*powerAsNum;
         }
+        console.log(`${key}: ${sum}`)
     }
     
     }
@@ -52,5 +62,4 @@ function solve (input){
     'Andrea: QH, QC, JS, JD, JC',
     
     'Peter: JD, JD, JD, JD, JD, JD'
-    
     ])
