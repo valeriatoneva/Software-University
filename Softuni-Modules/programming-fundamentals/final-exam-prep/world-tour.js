@@ -27,7 +27,7 @@ function solve(input) {
         }
         break;
       case `Switch`:
-        let pattern = new RegExp(firstParam, `g`);
+        let pattern = new RegExp(firstParam, 'g');
         initialString = initialString.replace(pattern, lastParam);
         break;
     }
