@@ -56,7 +56,8 @@ class SmartHike {
     }
     let sortedHikes = allHikes.sort((a, b) => a.time - b.time);
     let bestHike = sortedHikes[0];
-    let allHikes;
+    let allHikes = "";
+    
     switch (criteria) {
       case "hard":
         allHikes = this.listOfHikes.filter(

@@ -1,3 +1,4 @@
+// 70/100
 class SummerCamp{
     constructor(organizer, location){
     this.organizer = organizer;
