@@ -1,89 +1,78 @@
-window.addEventListener('load', solve);
-
+window.addEventListener("load", solve);
+// 44/100
 function solve() {
-
-  let modelField = document.getElementById('model')
-  let yearField = document.getElementById('year')
-  let descriptionField = document.getElementById('description')
+  let modelField = document.getElementById("model");
+  let yearField = document.getElementById("year");
+  let descriptionField = document.getElementById("description");
   let priceField = document.getElementById("price");
-  const furnitureListEL = document.getElementById("furniture-list");
-  let totalPrice = document.querySelector('.total-price')
+  let addButton = document.getElementById("add");
+  let moreInfoBtn = document.createElement("button");
+  let buyBtn = document.createElement("button");
+  let furnitureListTBody = document.getElementById("furniture-list");
+  let totalPrice = document.querySelector(".total-price");
+  let aditionalInfoLine = document.createElement("tr");
+  let rowElement = document.createElement("tr");
 
-  let model = modelField.value;
-  let year = yearField.value;
-  let description = descriptionField.value;
-  let price = Number(priceField.value);
-
-  let addButton = document.getElementById('add');
-  addButton.addEventListener('click', addClickHandler)
-
-  function addClickHandler(event){
+  addButton.addEventListener("click", (e) => {
     event.preventDefault();
-    if(model === "" || description === ""){
-        return;
-      }
-    
-      if(Number(year) < 0 || Number(price) < 0){
-        return;
+
+    let model = modelField.value;
+    let year = yearField.value;
+    let description = descriptionField.value;
+    let price = Number(priceField.value);
+
+    if (!model || !description) {
+      return;
     }
 
-    let rowElement = document.createElement('tr');
-    rowElement.className = 'info'
-    let modelTdEl = document.createElement('td')
-    let priceTdEl  = document.createElement('td')
-    let actionsTdEl = document.createElement('td');
-    let moreInfoBtn = document.createElement('button');
-    moreInfoBtn.classList.add('moreBtn')
-    let buyBtn = document.createElement('button');
-    buyBtn.classList.add('buyBtn')
-    moreInfoBtn.textContent = 'More Info';
-    buyBtn.textContent = 'Buy it';
-    
-    buyBtn.addEventListener('click', (e) => {
-        let currPriceTotal = Number(totalPrice.textContent);
-        totalPrice.textContent = (currPriceTotal + price).toFixed(2);
-        rowElement.remove();
-        hidden.remove();
-    })
+    if (Number(year) <= 0 || Number(price) <= 0) {
+      return;
+    }
 
-    moreInfoBtn.addEventListener('click', (e) => {
-        if(e.currentTarget.textContent == 'More Info'){
-         hidden.style.display = 'contents'
-        e.currentTarget.textContent = 'Less Info'
-        } else {
-        e.currentTarget.textContent = 'More Info'
-        hidden.style.display = 'none'
-        }
-    })
-
-    
-    let hidden = document.createElement('tr')
-    hidden.classList.add(`hide`);
-    hidden.style.display = 'none'
-    let hiddenTd = document.createElement('td')
-    hiddenTd.textContent = `Year: ${year}`;
-    let hiddenTd2 = document.createElement('td')
-    hiddenTd2.setAttribute('colspan', 3)
-    hiddenTd2.textContent = `Description: ${description}`
-
-    hidden.appendChild(hiddenTd)
-    hidden.appendChild(hiddenTd2)
-    actionsTdEl.appendChild(moreInfoBtn);
-    actionsTdEl.appendChild(buyBtn);
-
-    modelTdEl.textContent = model; // info from the input fields
+    let rowElement = document.createElement("tr");
+    rowElement.className = "info";
+    let modelTdEl = document.createElement("td");
+    let priceTdEl = document.createElement("td");
+    let actionsTdEl = document.createElement("td"); // attach buttons here
+    modelTdEl.textContent = model;
     priceTdEl.textContent = price.toFixed(2);
 
-    rowElement.appendChild(modelTdEl); // adding to the table 
-    rowElement.appendChild(priceTdEl);
-    rowElement.appendChild(actionsTdEl);
+    moreInfoBtn.classList.add("moreBtn");
+    buyBtn.classList.add("buyBtn");
+    moreInfoBtn.textContent = "More Info";
+    buyBtn.textContent = "Buy it";
 
-    furnitureListEL.appendChild(rowElement) // adding to the list the table 
-    furnitureListEL.appendChild(hidden)
-    
-  }
+  });
+  buyBtn.addEventListener("click", (e) => {
+    let currPriceTotal = Number(totalPrice.textContent);
+    totalPrice.textContent = (currPriceTotal + price).toFixed(2);
+    rowElement.remove();
+    aditionalInfoLine.remove();
+  });
 
+  moreInfoBtn.addEventListener("click", (e) => {
+    if (e.currentTarget.textContent == "More Info") {
+      // gives me the button's text content
+      aditionalInfoLine.style.display = "contents";
+      e.currentTarget.textContent = "Less Info";
+    } else {
+      e.currentTarget.textContent = "More Info";
+      aditionalInfoLine.style.display = "none";
+    }
+  });
 
+  let aditionalInfoLine = document.createElement("tr");
+  aditionalInfoLine.classList.add(`hide`);
+  aditionalInfoLine.style.display = "none";
+  let aditionalInfoLineTd = document.createElement("td");
+  aditionalInfoLineTd.textContent = `Year: ${year}`;
+  let aditionalInfoLineTd2 = document.createElement("td");
+  aditionalInfoLineTd2.setAttribute("colspan", 3);
+  aditionalInfoLineTd2.textContent = `Description: ${description}`;
 
+  aditionalInfoLine.appendChild(aditionalInfoLineTd);
+  aditionalInfoLine.appendChild(aditionalInfoLineTd2);
 
+  furnitureListTBody.appendChild(rowElement);
+  furnitureListTBody.appendChild(aditionalInfoLine);
 }

@@ -1,81 +1,77 @@
+// 37/100
 window.addEventListener("load", solve);
 
 function solve() {
-  let titleField = document.getElementById('post-title')
-  let categoryField = document.getElementById('post-category')
-  let contentField = document.getElementById('post-content')
+  let titleField = document.getElementById("post-title");
+  let categoryField = document.getElementById("post-category");
+  let contentField = document.getElementById("post-content");
   const reviewUlEl = document.getElementById("review-list");
   const publishedUlEl = document.getElementById("published-list");
   const reviewMessage = document.getElementById("reviewed-msg");
+  const editButton = document.createElement("BUTTON");
+  const approveButton = document.createElement("BUTTON");
+  const clearButton = document.getElementById("clear-btn");
+  const publishButton = document.getElementById("publish-btn");
+  const li = document.createElement("li");
+  const article = document.createElement("ARTICLE");
+  const h4 = document.createElement("h4");
+  const p1 = document.createElement("p");
+  const p2 = document.createElement("p");
 
-  let title = titleField.value;
-  let category = categoryField.value;
-  let content = contentField.value;
 
-  if(title === "" || category === "" || content === ""){
-    return;
-  }
+  publishButton.addEventListener("click", (e) => {
+    let title = titleField.value;
+    let category = categoryField.value;
+    let content = contentField.value;
 
-  const publishButton = document.getElementById('publish-btn');
-  publishButton.addEventListener('click', publishing);
+    if (title === "" || category === "" || content === "") {
+      return;
+    }
 
-  function publishing(event){
-    event.preventDefault()
-    const ul = document.getElementById('review-list');
 
-    const li = document.createElement('li');
-    li.className = 'rpost';
-    const article = document.createElement("ARTICLE")
-    const h4 = document.createElement('h4');
-    h4.textContent = `Question for DOM method`;
-    const p1 = document.createElement('p');
-    p1.textContent = `Category: Coding exercies`;
-    const p2 = document.createElement('p');
-    p2.textContent = `${content}: Is there anyone that can help me understand what does 'preventDefault' method do?`;
-    const editButton = document.createElement("BUTTON");
-    editButton.className = 'action-btn edit';
-    editButton.textContent = 'Edit'
-    const approveButton = document.createElement("BUTTON");
-    approveButton.className = 'approve-btn edit';
-    approveButton.textContent = 'Approve'
-    
-    ul.appendChild(li);
-    ul.appendChild(h4);
-    ul.appendChild(p1);
-    ul.appendChild(p2);
-    ul.appendChild(editButton);
-    ul.appendChild(approveButton);
+    li.className = "rpost";
+    h4.textContent = title;
+    p1.textContent = `Category: ${category}`;
+    p2.textContent = `Content: ${content}`;
+    editButton.className = "action-btn edit";
+    editButton.textContent = "Edit";
+    approveButton.className = "approve-btn edit";
+    approveButton.textContent = "Approve";
 
-    let titleField = "";
-    let categoryField = "";
-    let contentField = "";
-  
-  }
+    li.appendChild(article);
+    article.appendChild(h4);
+    article.appendChild(p1);
+    article.appendChild(p2);
+    li.appendChild(editButton);
+    li.appendChild(approveButton);
+    reviewUlEl.appendChild(li);
 
-  editButton.addEventListener('click', editing);
+    titleField.value = "";
+    categoryField.value = "";
+    contentField.value = "";
+  });
 
-  function editing(event){
-    title.innerText = `Question for DOM method`;
-    category.innerText = `Category: Coding exercies`;
-    content.innerText = `Content: Is there anyone that can help me understand what does (event.preventDefault) method do?`;
-    ul.innerHTML = ""
-    ul.appendChild(title.innerText)
-    ul.appendChild(category.innerText)
-    ul.appendChild(content.innerText)
+    editButton.addEventListener('click', (e) => {
+      titleField.value = h4.textContent.split(': ')[0]
+      categoryField.value = p1.textContent.split(': ')[0]
+      contentField.value = p2.textContent.split(': ')[0]
+      h4.remove()
+      p1.remove()
+      p2.remove()
+    })
 
-  }
+    approveButton.addEventListener('click', (e) => {                               
+      reviewUlEl.innerHTML = "";
+      
+      li.className = "rpost";                                            
+      article.appendChild(h4)
+      article.appendChild(p1)
+      article.appendChild(p2)
+      li.appendChild(article)
+      publishedUlEl.appendChild(li)
+    })
 
-  approveButton.addEventListener('click', approving);
-
-  function approving(event){
-    ul.textContent.remove()
-    let publishedList = document.getElementById('published-list');
-    publishedList.appendChild(title.innerText)
-    publishedList.appendChild(category.innerText)
-    publishedList.appendChild(content.innerText)
-    editButton.remove()
-    approveButton.remove()
-
-  }
-  
+    clearButton.addEventListener('click', (e) => {                               
+      publishedUlEl.innerHTML = "";
+    })
 }
