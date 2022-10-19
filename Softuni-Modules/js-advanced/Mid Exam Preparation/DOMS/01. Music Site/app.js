@@ -1,5 +1,5 @@
 function solve() {
-    //TODO
+//100 / 100
 
     const allHitsField = document.querySelector('.all-hits-container');
     const likeField = document.querySelector('.likes p');

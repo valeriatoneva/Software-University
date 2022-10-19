@@ -1,84 +1,70 @@
-window.addEventListener("load", solve);
-// 60/100
 function solve() {
-  let productTypeField = document.getElementById("type-product");
-  let descriptionField = document.getElementById("description");
-  let clientNameField = document.getElementById("client-name");
-  let clientPhoneField = document.getElementById("client-phone");
-  let receivedOrders = document.getElementById("received-orders");
-  let compleatedOrders = document.getElementById("completed-orders");
-  let sendFormBtn = document.querySelector("button[type='submit']");
-  let clearBtn = document.querySelector(".clear-btn");
-  let startBtn = document.createElement("button");
-  let finishBtn = document.createElement("button");
+  // 100/100
+  let typeOfProduct = document.getElementById('type-product');
+  let description = document.getElementById('description');
+  let clientName = document.getElementById('client-name');
+  let phoneNum = document.getElementById('client-phone');
+  let submitButton = document.querySelector('form button');
 
-  let container = document.createElement("div");
-  let h2 = document.createElement("h2");
-  let h3 = document.createElement("h3");
-  let h4 = document.createElement("h4");
+  submitButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      if (description.value.length == 0 || clientName.value.length == 0 || phoneNum.value.length == 0) {
+          return;
+      }
+      let appendingSection = document.getElementById('received-orders');
 
-  sendFormBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+      let divElement = document.createElement('div');
+      divElement.classList.add('container');
+      console.log(divElement)
 
-    let productType = productTypeField.value;
-    let description = descriptionField.value;
-    let clientName = clientNameField.value;
-    let clientPhone = clientPhoneField.value;
+      let productH2 = document.createElement('h2');
+      productH2.textContent = `Product type for repair: ${typeOfProduct.value}`;
 
-    if (description === "" || clientName === "" || clientPhone === "") {
-      return;
-    }
+      let clientH3 = document.createElement('h3');
+      clientH3.textContent = `Client information: ${clientName.value}, ${phoneNum.value}`;
+      console.log(clientH3)
+      let descriptionH4 = document.createElement('h4');
+      descriptionH4.textContent = `Description of the problem: ${description.value}`;
 
-    container.className = "container";
-    h2.textContent = `Product type for repair: ${productType}`;
-    h3.textContent = `Client information: ${clientName}, ${clientPhone}`;
-    h4.textContent = `Description of the problem: ${description}`;
+      let startButton = document.createElement('button');
+      startButton.classList.add('start-btn');
+      startButton.textContent = 'Start repair';
 
-    startBtn.className = "start-btn";
-    finishBtn.className = "finish-btn";
-    finishBtn.disabled = true;
-    startBtn.textContent = "Start repair";
-    finishBtn.textContent = "Finish repair";
+      let finishButton = document.createElement('button');
+      finishButton.classList.add('finish-btn')
+      finishButton.textContent = 'Finish repair'
+      finishButton.disabled = true;
 
-    container.appendChild(h2);
-    container.appendChild(h3);
-    container.appendChild(h4);
-    container.appendChild(startBtn);
-    container.appendChild(finishBtn);
-    receivedOrders.appendChild(container);
+      divElement.appendChild(productH2)
+      divElement.appendChild(clientH3)
+      divElement.appendChild(descriptionH4)
+      divElement.appendChild(startButton)
+      divElement.appendChild(finishButton)
+      appendingSection.appendChild(divElement)
+      console.log(appendingSection)
 
-    productTypeField.value = "";
-    descriptionField.value = "";
-    clientNameField.value = "";
-    clientPhoneField.value = "";
-  });
+      clientName.value = '';
+      description.value = '';
+      phoneNum.value = '';
 
-  startBtn.addEventListener("click", (e) => {
-    e.target.disabled = true;
-    finishBtn.disabled = false;
-  });
+      startButton.addEventListener('click', () => {
+          startButton.disabled = true;
+          finishButton.disabled = false;
+      });
 
-  finishBtn.addEventListener("click", (e) => {
-    startBtn.remove()
-    finishBtn.remove()
-    container.appendChild(h2);
-    container.appendChild(h3);
-    container.appendChild(h4);
-    compleatedOrders.appendChild(container);
-  });
-
-  clearBtn.addEventListener('click', (e) => {
-    compleatedOrders.innerHTML = ""
-    h2.textContent = 'Completed orders:'
-    let img = document.createElement('img');
-    img.src = "./style/img/completed-order.png";
-    let newClearBtn = document.createElement('button');
-    newClearBtn.className = 'clear-btn';
-    newClearBtn.textContent = 'Clear'
-
-    compleatedOrders.appendChild(h2);
-    compleatedOrders.appendChild(img);
-    compleatedOrders.appendChild(newClearBtn)
-
+      let completedOrdersSection = document.getElementById('completed-orders');
+      finishButton.addEventListener('click', () => {
+          divElement.removeChild(finishButton);
+          divElement.removeChild(startButton)
+          completedOrdersSection.appendChild(divElement)
+      })
+  })
+  let clearButton = document.querySelector('.clear-btn')
+  clearButton.addEventListener('click', (e) => {
+      let arrFromClasses = Array.from(document.querySelectorAll('#completed-orders .container'))
+      console.log(arrFromClasses)
+      for (const line of arrFromClasses) {
+          line.remove()
+      }
   })
 }
