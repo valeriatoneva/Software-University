@@ -1,3 +1,4 @@
+// 70/100
 class SmartHike {
   constructor(username) {
     this.username = username;
