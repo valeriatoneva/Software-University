@@ -1,9 +1,11 @@
 function solve() {
-const label = document.querySelector(`#info span`)
+
+const label = document.querySelector(`.info`)
 const departBtn = document.getElementById(`depart`)
 const arriveBtn = document.getElementById(`arrive`)
+
 let stop = {
-    next: 'Depot'
+    next: 'depot'
 }
     async function depart() {
     departBtn.disabled = true;

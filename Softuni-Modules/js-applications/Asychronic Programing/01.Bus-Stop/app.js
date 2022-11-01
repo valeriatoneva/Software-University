@@ -9,8 +9,12 @@ async function getInfo() {
     stopNameEl.textContent = "Loading...";
     timetableEl.replaceChildren();
     const response = await fetch(url);
-    const data = await response.json();
 
+    if(!response.ok){
+      throw new Error('Stop ID not found')
+    }
+
+    const data = await response.json();
     stopNameEl.textContent = data.name;
 
     Object.entries(data.buses).forEach((bus) => {
