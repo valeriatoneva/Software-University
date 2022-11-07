@@ -1,43 +1,66 @@
 async function solution() {
-//   const moreBtn = document.getElementById("ee9823ab-c3e8-4a14-b998-8c22ec246bd3");
-  const main = document.getElementById('main')
-  const url = `http://localhost:3030/jsonstore/advanced/articles/list`;
-  const response = await fetch(url);
-  const data = response.json();
 
-  const main = document.getElementById('main');
+   const main = document.getElementById("main");
+   const mainChildren = await getData();
+   main.replaceChildren(...mainChildren);
+}
 
-  let divMain = document.createElement('div');
-  divMain.setAttribute("class", "accordion");
-  let divHead = document.createElement('div');
-  divHead.setAttribute("class", "head");
-  let span = document.createElement('span');
-  let moreBtn =  document.createElement('button');
-  let divExtra = document.createElement('div');
-  divExtra.setAttribute("class", "extra");
-  let p = document.createElement('p');
+async function getData() {
+    const response = await fetch("http://localhost:3030/jsonstore/advanced/articles/list");
+    const data = await response.json();
+    const elements = data.map(elementsCreator);
+    return elements;
+}
+async function getInfo(id) {
+    const response = await fetch(`http://localhost:3030/jsonstore/advanced/articles/details/${id}`);
+    const data = await response.json();
+    const text = data.content;
+    return text;
+}
 
-  data.forEach((el) => {
-    span.textContent = el.title
-    p.textContent = el.title
-  })
-  
-  main.appendChild(divMain)
-  main.appendChild(divHead)
-  main.appendChild(divExtra);
-  divMain.appendChild(divHead);
-  divHead.appendChild(span);
-  divHead.appendChild(button)
-
-//<div class="accordion">
-//   <div class="head">
-//       <span>Scalable Vector Graphics</span>
-//       <button class="button" id="ee9823ab-c3e8-4a14-b998-8c22ec246bd3">More</button>
-//   </div>
-//   <div class="extra">
-//       <p>Scalable Vector Graphics .....</p>
-//   </div>
-// </div> -->
+async function showMore(e) {
+    const btn = e.target;
+    const main = e.target.parentElement.parentElement;
+    const extraDiv = main.children[1];
+    const p = extraDiv.children[0];
+    const text = await getInfo(e.target.id);
+    p.textContent = text;
+    if (btn.textContent == 'More') {
+        extraDiv.style.display = 'block'
+        btn.textContent = 'Less';
+    } else {
+        extraDiv.style.display = 'none'
+        btn.textContent = 'More';
+    }
 
 }
-solution()
+
+ function elementsCreator(obj) {
+    const div = document.createElement("div");
+    div.setAttribute('class','accordion');
+    const headDiv = document.createElement('div');
+    headDiv.setAttribute('class', 'head');
+    const span = document.createElement('span');
+    span.textContent = `${obj.title}`;
+    const button = document.createElement('button');
+    button.setAttribute('class', 'button');
+    button.setAttribute('id', `${obj._id}`);
+    button.addEventListener('click', showMore);
+    button.textContent = 'More';
+    const extraDiv = document.createElement('div');
+    extraDiv.setAttribute('class', 'extra');
+    const p = document.createElement('p');
+    
+    extraDiv.appendChild(p);
+    headDiv.appendChild(span);
+    headDiv.appendChild(button);
+    div.appendChild(headDiv);
+    div.appendChild(extraDiv)
+
+
+return div
+
+}
+
+solution();
+
