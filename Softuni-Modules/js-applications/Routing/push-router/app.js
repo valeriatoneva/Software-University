@@ -19,13 +19,21 @@ const routes = {
     '#about': aboutTemplate,
 }
 
-const root = document.getElementById('root')
+const root = document.getElementById('root');
+
+// window.addEventListener('popstate', (e) => {
+//     location.pathname
+// })
 
 document.body.addEventListener('click', (e) => {
 if(e.target.tagName == 'A'){
     e.preventDefault();
+
     let url = new URL(e.target.href); // gives an obj
-    let template = routes[url.pathname]
-    root.innerHTML = template()
+
+    history.pushState({}, '', url.pathname);
+    let template = routes[url.pathname];
+
+    root.innerHTML = template(); 
 }
 })
