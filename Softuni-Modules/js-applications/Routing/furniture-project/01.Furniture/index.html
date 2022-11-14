@@ -1,0 +1,34 @@
+// make an html file wich inclues the nav and the root/container which we will fill with content 
+// download lit-html, and packet page (will make rendering el easier)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="app.js" type="module"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">Furniture Store</a></h1>
+        <nav>
+            <a id="catalogLink" href="index.html" class="active">Dashboard</a>
+            <div id="user">
+                <a id="createLink" href="create.html" >Create Furniture</a>
+                <a id="logoutBtn" href="javascript:void(0)">Logout</a>
+            </div>
+            <div id="guest">
+                <a id="loginLink" href="login.html">Login</a>
+                <a id="registerLink" href="register.html">Register</a>
+            </div>
+        </nav>
+    </header>
+    <div class="container"> 
+    
+    </div>
+</body>
+</html>
+
+// seeing only the navigation
