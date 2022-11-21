@@ -1,0 +1,27 @@
+1. extract project files (x)
+2. Setup NPM project (x)
+- npm i
+- npm start
+- npm run test 
+- cd server
+- node server.js
+3. Analyze HTML and determine template structure (x)
+4. Create application entry module (x)
+4.1 home
+4.2 catalog
+4.3 login
+4.4 register
+4.5 details
+4.3 catalog functions inside api folder
+5. Setup routing and create view placeholders ()
+6. Implement request function ()
+7. Implement views
+7.1 Create static templates
+7.2 Implement request
+7.3. Populate template with remote data 
+7.4 Add event listeners (if any)
+
+
+run tests: 
+-npm run test
+-
