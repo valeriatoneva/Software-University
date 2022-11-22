@@ -3,7 +3,7 @@ import { deleteMeme } from "../api/memes.js";
 import { getAllMemes } from "../api/memes.js";
 import { html } from "../lib.js";
 
-const detailsTemplate = () => html`
+const detailsTemplate = (memes) => html`
   <section id="meme-feed">
     <h1>All Memes</h1>
     <div id="memes">
