@@ -13,6 +13,8 @@ import { searchPage } from './views/search.js';
 
 window.api = api;
 
+let root = 
+
 page('/', homePage);
 page('/dashboard', dashboardPage);
 page('/register', registerPage);
@@ -23,9 +25,32 @@ page('/edit/:id', editPage);
 page('/search', searchPage)
 page.start();
 
-//nav
+// middleware
 
-setupNavbar();
+function decorateContext(ctx, next){
+  ctx.render = renderMain;
+  ctx.updateNav = updateNav;
+  next()
+}
+
+function renderMain(templateRes){
+render(templateRes, root)
+}
+
+//nav
+function updateNav() {
+  const userData = getUserData();
+  if(userData){
+   document.querySelector('.user').style.display = 'block';
+   document.querySelector('.guest').style.display = 'none';
+   document.querySelector('.user span').textContent = `Welcome, ${userData.email}`;
+  } else {
+   document.querySelector('.user').style.display = 'none';
+   document.querySelector('.guest').style.display = 'block';
+  }
+}
+
+updateNav();
 
 // logout
 async function logout() {

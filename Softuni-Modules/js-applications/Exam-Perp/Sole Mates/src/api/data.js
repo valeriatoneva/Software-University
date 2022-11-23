@@ -29,6 +29,7 @@ export async function getMyShoes() {
   return await api.get(`/data/shoes?where=_ownerId%3D%22${ownerId}%22&sortBy=_createdOn%20desc`);
 }
 
+// optional
 export async function search(query) {
   return await api.get(`/data/shoes?where=brand%20LIKE%20%22${query}%22`);
 }
