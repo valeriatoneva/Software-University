@@ -1,6 +1,7 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 
 const homeTemplate = () => html`
+    <!-- Home page -->
     <section id="home">
       <h1>Welcome to Sole Mates</h1>
       <img src="./images/home.jpg" alt="home" />
@@ -9,7 +10,6 @@ const homeTemplate = () => html`
     </section>
 `;
 
-
-export async function homePage(ctx){
-  ctx.render(homeTemplate())
+export async function homePage(ctx) {
+  render(homeTemplate(), document.querySelector('main'));
 }

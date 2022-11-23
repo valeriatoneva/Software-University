@@ -1,13 +1,12 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { login } from '../api/data.js';
-import { setupNavbar } from '../app.js';
+import { updateNav } from '../app.js';
 
-const loginTemplate = (ctx) => html`
-    <!-- Login Page (Only for Guest users) -->
+const loginTemplate = (onSubmit) => html`
     <section id="login">
       <div class="form">
         <h2>Login</h2>
-        <form class="login-form" @submit=${e => onSubmit(e, ctx)}>
+        <form @submit=${onSubmit}class="login-form">
           <input type="text" name="email" id="email" placeholder="email" />
           <input
             type="password"
@@ -22,26 +21,26 @@ const loginTemplate = (ctx) => html`
         </form>
       </div>
     </section>
-
 `;
 
-export async function loginPage(ctx) {
-  render(loginTemplate(ctx), document.querySelector('main'));
-}
+export function loginPage(ctx) {
+  ctx.render(loginTemplate(onSubmit));
 
-async function onSubmit(event, ctx) {
-  event.preventDefault();
+  async function onSubmit(e) {
+    e.preventDefault();
 
-  const formData = new FormData(event.target);
-  const email = formData.get('email').trim();
-  const password = formData.get('password').trim();
+    const formData = new FormData(e.target);
+    const email = formData.get("email").trim();
+    const password = formData.get("password").trim();
 
-  if (email == '' || password == '') {
-    return alert("All fields required!");
+    if (email == "" || password == "") {
+      return alert("All fields are required!");
+    }
+
+    await login(email, password);
+    ctx.updateNav();
+    ctx.page.redirect("/dashboard");
   }
-
-  await login(email, password);
-  event.target.reset();
-  ctx.page.redirect('/');
-  setupNavbar();
 }
+
+

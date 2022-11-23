@@ -1,33 +1,8 @@
 import { html, render } from '../../node_modules/lit-html/lit-html.js';
-import { deleteShoes, getShoesById, getApplicationById, getApplications, postApplication } from '../api/data.js';
-import { setupNavbar } from '../app.js';
-
-// const detailsTemplate = (shoe, likes, hasLiked, ctx) => html`
-//     <!--Details Page-->
-//     <section id="detailsPage">
-//       <div id="detailsBox">
-//         <div class="detailsInfo">
-//           <h1>Title: ${shoe.title}</h1>
-//           <div>
-//             <img src="${shoe.imageUrl}" />
-//           </div>
-//         </div>
-
-//         <div class="details">
-//           <h3>Shoes Description</h3>
-//           <p>${shoe.description}</p>
-//           <h4>Date: ${shoe.date}</h4>
-//           <h4>Author: ${shoe.author}</h4>
-
-//           ${checkForOwner(shoe, hasLiked, likes, ctx)}
-//           <p class="likes">Likes: ${likes}</p>
-//         </div>
-//       </div>
-//     </section>
-// `;
+import { deleteShoes, getShoesById} from '../api/data.js';
+import { updateNav } from '../app.js';
 
 const detailsTemplate = (shoe, ctx) => html`
-    <!-- Details page -->
     <section id="details">
       <div id="details-wrapper">
         <p id="details-title">Shoe Details</p>
@@ -42,35 +17,19 @@ const detailsTemplate = (shoe, ctx) => html`
           <p>Release date: <span id="details-release">${shoe.release}</span></p>
           <p>Designer: <span id="details-designer">${shoe.designer}</span></p>
           <p>Value: <span id="details-value">${shoe.value}</span></p>
+          ${checkForOwner(shoe, ctx)}
         </div>
-
-        ${checkForOwner(shoe, ctx)}
       </div>
     </section>
 `;
-export async function detailsPage(ctx) {
-  const id = ctx.params.id;
-  const shoe = await getShoesById(id);
-  const userId = sessionStorage.getItem('userId') || null;
-  // const applications = await getApplications(id);
-  // const hasApplied = await getApplicationById(id, userId) ? true : false;
-
-  render(detailsTemplate(shoe, ctx), document.querySelector('main'));
-}
-
-async function applyToShoes(shoe, hasApplied, ctx) {
-  await postApplication(shoe._id);
-  detailsPage(ctx);
-}
 
 function checkForOwner(shoe, ctx) {
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
   if (userId == shoe._ownerId) {
     return html`
-      <!--Edit and Delete are only for creator-->
       <div id="action-buttons">
         <a href="/edit/${shoe._id}" id="edit-btn">Edit</a>
-        <a @click=${e => onDelete(e, ctx)} id="delete-btn">Delete</a>
+        <a @click=${onDelete} id="delete-btn">Delete</a>
       </div>
     `
   } else {
@@ -78,16 +37,22 @@ function checkForOwner(shoe, ctx) {
   }
 }
 
-async function onDelete(event, ctx) {
-  event.preventDefault();
+export async function detailsPage(ctx) {
+  const shoe = await getShoesById(ctx.params.id);
+  const userData = getUserData();
+  const isOwner = userData?.id == shoe._ownerId;
+  ctx.render(detailsTemplate(shoe, isOwner, onDelete));
+}
 
+// delete
+async function onDelete(e, ctx) {
+  e.preventDefault();
   const id = ctx.params.id;
-
   const confirmed = confirm('Are you sure you want to delete this shoe?');
 
   if (confirmed) {
     await deleteShoes(id);
     ctx.page.redirect('/dashboard');
-    setupNavbar();
+    updateNav();
   }
 }

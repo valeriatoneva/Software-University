@@ -2,18 +2,21 @@ import { html, render } from '../node_modules/lit-html/lit-html.js';
 import * as api from './api/data.js';
 import page from '../node_modules/page/page.mjs';
 
-import { createPage } from './views/create.js'
-import { dashboardPage } from './views/dashboard.js'
-import { detailsPage } from './views/details.js'
-import { registerPage } from './views/register.js'
-import { loginPage } from './views/login.js'
+
 import { homePage } from './views/home.js';
+import { loginPage } from './views/login.js'
+import { registerPage } from './views/register.js'
+import { dashboardPage } from './views/dashboard.js'
+
+import { createPage } from './views/create.js'
+import { detailsPage } from './views/details.js'
 import { editPage } from './views/edit.js';
 import { searchPage } from './views/search.js';
 
 window.api = api;
 
-let root = 
+let root = document.querySelector('main');
+document.querySelector('#logoutBtn').addEventListener('click', onLogout)
 
 page('/', homePage);
 page('/dashboard', dashboardPage);
@@ -22,6 +25,7 @@ page('/login', loginPage);
 page('/create', createPage);
 page('/details/:id', detailsPage);
 page('/edit/:id', editPage);
+
 page('/search', searchPage)
 page.start();
 
@@ -43,7 +47,6 @@ function updateNav() {
   if(userData){
    document.querySelector('.user').style.display = 'block';
    document.querySelector('.guest').style.display = 'none';
-   document.querySelector('.user span').textContent = `Welcome, ${userData.email}`;
   } else {
    document.querySelector('.user').style.display = 'none';
    document.querySelector('.guest').style.display = 'block';
@@ -53,8 +56,8 @@ function updateNav() {
 updateNav();
 
 // logout
-async function logout() {
-  await api.logout();
-  page.redirect('/');
-  setupNavbar();
+function onLogout(){
+  logout();
+  updateNav();
+  page.redirect('/')
 }

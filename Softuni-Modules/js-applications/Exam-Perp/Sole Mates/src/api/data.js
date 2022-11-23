@@ -8,12 +8,12 @@ export async function getShoes() {
   return await api.get(`/data/shoes?sortBy=_createdOn%20desc`);
 }
 
-export async function getShoesById(id) {
+export async function getShoesById(id) { // details
   return await api.get(`/data/shoes/${id}`);
 }
 
 export async function createShoes(shoe) {
-  return await api.post(`0/data/shoes`, shoe);
+  return await api.post(`/data/shoes`, shoe);
 }
 
 export async function editShoes(id, shoe) {
