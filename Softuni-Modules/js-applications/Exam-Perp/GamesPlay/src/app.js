@@ -1,4 +1,5 @@
-import { page, redner } from './lib.js';
+import { html, redner } from '.node_modules'; // fix 
+import page from './node_modules/page/page.mjs' // fix
 
 import { catalogView } from '../views/catalog.js';
 import { createView } from '../views/create.js';
