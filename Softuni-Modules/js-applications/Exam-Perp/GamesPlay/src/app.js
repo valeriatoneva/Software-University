@@ -1,35 +1,35 @@
-import { html, redner } from '.node_modules'; // fix 
-import page from './node_modules/page/page.mjs' // fix
+import { render } from "../node_modules/lit-html/lit-html.js";
+import page from "../node_modules/page/page.mjs";
 
-import { catalogView } from '../views/catalog.js';
-import { createView } from '../views/create.js';
-import { homeView } from '../views/home.js';
-import { loginView } from '../views/login.js';
-import { registerView } from '../views/register.js';
-import { editView } from '../views/edit.js';
-import { detailsView } from '../views/details.js';
-import { logout } from './api/users.js'
+import { logout as apiLogout } from "./api/api.js"
+import { getUserData } from "./util.js";
+import { loginPage, registerPage } from "./views/auth.js";
+import { homePage } from "./views/home.js";
+import { dashboardPage } from "./views/dashboard.js";
+import { createPage } from "./views/create.js";
+import { detailsPage } from "./views/details.js";
+import { editPage } from "./views/edit.js";
 
-const main = document.querySelector('main-content')
-document.getElementById('logoutBtn').addEventListener('click', onLogout);
+const main = document.querySelector("#content");
 
-page(decorateContext);
-page('/', homeView) 
-page('/catalog', catalogView) 
-page('/login', loginView)
-page('/register', registerView)
-page('/create', catalogView)
-page('/details/:id', detailsView) 
-page('/edit/:id', editView)  
-page('/logout', onLogout)  
+setUserNav();
 
-updateNav()
-page.start()
+document.getElementById("logoutBtn").addEventListener("click", onLogout);
 
-// middleware
+page("/", decorateContext, homePage);
+page("/login", decorateContext, loginPage);
+page("/register", decorateContext, registerPage);
+page("/dashboard", decorateContext, dashboardPage);
+page("/create-offer", decorateContext, createPage);
+page("/details/:id", decorateContext, detailsPage);
+page("/edit/:id", decorateContext, editPage);
+
+
+page.start();
+
 function decorateContext(ctx, next){
     ctx.render = renderMain;
-    ctx.updateNav = updateNav;
+    ctx.setsetUserNav =setUserNav;
     next()
 }
 
@@ -37,21 +37,19 @@ function renderMain(templateRes){
 render(templateRes, main)
 }
 
-// navigation
-function updateNav() {
+export function setUserNav() {
     const userData = getUserData();
     if(userData){
      document.querySelector('.user').style.display = 'block';
      document.querySelector('.guest').style.display = 'none';
-     document.querySelector('.user span').textContent = `Welcome, ${userData.email}`;
     } else {
      document.querySelector('.user').style.display = 'none';
      document.querySelector('.guest').style.display = 'block';
     }
 }
 
-function onLogout(){
-    logout();
-    updateNav();
-    page.redirect('/')
+async function onLogout() {
+  await apiLogout();
+  setUserNav();
+  page.redirect("/");
 }

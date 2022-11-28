@@ -1,26 +1,52 @@
-import { get } from './api.js';
-import { post } from './api.js';
-import { put } from './api.js';
-import { del } from './api.js';
+import * as api from "./api.js";
 
-export async function getAllGames(){
-    return get(`/data/games?sortBy=_createdOn%20desc`) // check
-}
-export async function getNewGames(){
-    return get('/data/games?sortBy=_createdOn%20desc&distinct=category')
-}
-export async function getGameById(id){
-    return get('/data/games/' + id) // check
-}
-export async function createGame(game){ // check
-    return post('/data/games', game)
+const host = "http://localhost:3030";
+api.settings.host = host;
+
+export const login = api.login;
+export const register = api.register;
+export const logout = api.logout;
+
+// Application-specific request
+// get all listings
+export async function getAllOffers() {
+  return await api.get(host + "/data/offers?sortBy=_createdOn%20desc");
 }
 
-export async function editGame(id){ // check 
-    return put('/data/games' + id);
+// get listing by id
+export async function getOfferById(id) {
+  return await api.get(host + `/data/offers/${id}`);
 }
 
-export async function deleteGame(id){ // check
-    return del('/data/games' + id);
+// create listing
+export async function createOffer(offer) {
+  return await api.post(host + "/data/offers", offer);
 }
 
+// edit listing by id
+export async function editOfferById(id, offer) {
+  return await api.put(host + `/data/offers/${id}`, offer);
+}
+
+// delete listing by id
+export async function deleteOfferById(id) {
+  return await api.del(host + `/data/offers/${id}`);
+}
+
+export async function apply(offerId) {
+  return await api.post(host + `/data/applications`, offerId);
+}
+
+export async function getTotalApplications(offerId) {
+  return await api.get(
+    host +
+      `/data/applications?where=offerId%3D%22${offerId}%22&distinct=_ownerId&count`
+  );
+}
+
+export async function didUserApplied(offerId, userId) {
+  return await api.get(
+    host +
+      `/data/applications?where=offerId%3D%22${offerId}%22%20and%20_ownerId%3D%22${userId}%22&count`
+  );
+}
