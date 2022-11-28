@@ -1,9 +1,11 @@
-import {html} from '../lib.js'; 
-import {getUserData} from '../util.js'
+import { html, render } from "../../node_modules/lit-html/lit-html.js";
 
-const homeTemplate = (games) => html`
+import { getUserData } from "../src/util.js";
+import { setUserNav} from "../app.js"
+
+
+const homeTemplate = (games, ) => html`
 <section id="welcome-world">
-
 <div class="welcome-message">
     <h2>ALL new games are</h2>
     <h3>Only in GamesPlay</h3>
@@ -19,7 +21,7 @@ const homeTemplate = (games) => html`
 `;
 
 
-const gameCard = (game, isOwner) => html`
+const gameCard = (game) => html`
 <div class="game">
 <div class="image-wrap">
     <img src="${game.imageUrl}">
@@ -35,6 +37,6 @@ const gameCard = (game, isOwner) => html`
 `
 
 export async function homeView(ctx){
-const games = await getNewGames()
-ctx.render(homeTemplate())
+const newGamesList = await getNewGames()
+ctx.render(homeTemplate(newGamesList))
 }

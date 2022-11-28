@@ -4,10 +4,10 @@ import page from "../node_modules/page/page.mjs";
 import { logout as apiLogout } from "./api/api.js"
 import { getUserData } from "./util.js";
 import { loginPage, registerPage } from "./views/auth.js";
+import { catalogue } from "./views/catalogue.js";
 import { homePage } from "./views/home.js";
-import { dashboardPage } from "./views/dashboard.js";
-import { createPage } from "./views/create.js";
 import { detailsPage } from "./views/details.js";
+import { createPage } from "./views/create.js";
 import { editPage } from "./views/edit.js";
 
 const main = document.querySelector("#content");
@@ -19,8 +19,8 @@ document.getElementById("logoutBtn").addEventListener("click", onLogout);
 page("/", decorateContext, homePage);
 page("/login", decorateContext, loginPage);
 page("/register", decorateContext, registerPage);
-page("/dashboard", decorateContext, dashboardPage);
-page("/create-offer", decorateContext, createPage);
+page("/catalogue", decorateContext, cataloguePage);
+page("/create", decorateContext, createPage);
 page("/details/:id", decorateContext, detailsPage);
 page("/edit/:id", decorateContext, editPage);
 

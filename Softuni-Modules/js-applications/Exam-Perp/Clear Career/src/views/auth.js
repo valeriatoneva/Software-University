@@ -73,9 +73,9 @@ export async function registerPage(ctx) {
   async function onSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const repeatPass = formData.get("re-password");
+    const email = formData.get("email").trim();
+    const password = formData.get("password").trim();
+    const repeatPass = formData.get("re-password").trim();
 
     if (!password || !email) {
       return alert("All fields are required!");

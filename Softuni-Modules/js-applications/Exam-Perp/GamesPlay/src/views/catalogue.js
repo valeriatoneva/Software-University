@@ -1,8 +1,8 @@
-import { getAllGames } from '../api/requests.js';
-import {html} from '../lib.js'; 
+import { html, render } from "../../node_modules/lit-html/lit-html.js";
+import { getAllGames } from '../api/data.js';
 
-const catalogTemplate = (games) => html`
-<section id="catalog-page">
+const catalogueTemplate = (games) => html`
+<section id="catalogue-page">
 <h1>All Games</h1>
 ${games.length == 0 ? html`<h3 class="no-articles">No articles yet</h3>` : games.map(cardTemplate)}
 </section>
@@ -19,7 +19,7 @@ const cardTemplate = (game) => html`
     </div>
 </div>
 `;
-export async function catalogView(ctx){ // make it async so we can get the data from games.js 
-const games = await getAllGames()
-ctx.render(catalogTemplate(games))
+export async function cataloguePage(ctx){ // make it async so we can get the data from data.js 
+const gamesList = await getAllGames()
+ctx.render(catalogueTemplate(gamesList))
 }

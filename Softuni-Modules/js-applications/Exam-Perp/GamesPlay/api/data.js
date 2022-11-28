@@ -9,44 +9,48 @@ export const logout = api.logout;
 
 // Application-specific request
 // get all listings
-export async function getAllOffers() {
-  return await api.get(host + "/data/offers?sortBy=_createdOn%20desc");
+export async function getAllGames() {
+  return await api.get(host + "/data/games?sortBy=_createdOn%20desc");
 }
-
-// get listing by id
-export async function getOfferById(id) {
-  return await api.get(host + `/data/offers/${id}`);
+// get new games
+export async function getNewGames(){
+  return await api.get(host + "/data/games?sortBy=_createdOn%20desc&distinct=category")
 }
 
 // create listing
-export async function createOffer(offer) {
-  return await api.post(host + "/data/offers", offer);
+export async function createGame(game) {
+  return await api.post(host + "/data/games", game);
+}
+
+// get listing by id
+export async function getGameById(id) {
+  return await api.get(host + `/data/games/${id}`);
 }
 
 // edit listing by id
-export async function editOfferById(id, offer) {
-  return await api.put(host + `/data/offers/${id}`, offer);
+export async function editGameById(id, game) {
+  return await api.put(host + `/data/games/${id}`, game);
 }
 
 // delete listing by id
-export async function deleteOfferById(id) {
-  return await api.del(host + `/data/offers/${id}`);
+export async function deleteGameById(id) {
+  return await api.del(host + `/data/games/${id}`);
 }
 
-export async function apply(offerId) {
-  return await api.post(host + `/data/applications`, offerId);
+export async function apply(gameId) {
+  return await api.post(host + `/data/applications`, gameId);
 }
 
-export async function getTotalApplications(offerId) {
+export async function getTotalApplications(gameId) {
   return await api.get(
     host +
-      `/data/applications?where=offerId%3D%22${offerId}%22&distinct=_ownerId&count`
+      `/data/applications?where=gameId%3D%22${gameId}%22&distinct=_ownerId&count`
   );
 }
 
-export async function didUserApplied(offerId, userId) {
+export async function didUserApplied(gameId, userId) {
   return await api.get(
     host +
-      `/data/applications?where=offerId%3D%22${offerId}%22%20and%20_ownerId%3D%22${userId}%22&count`
+      `/data/applications?where=gameId%3D%22${gameId}%22%20and%20_ownerId%3D%22${userId}%22&count`
   );
 }
