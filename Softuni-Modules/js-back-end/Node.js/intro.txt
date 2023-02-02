@@ -1,0 +1,59 @@
+Node.js is a runtime environment for JavaScript, every browser has a js engine 
+to understand the js code, chrome uses v8. Node.js is a combination of v8 and node modules.
+
+To start my first node.js program:
+
+1. mkdir fist-app
+2. cd fist-app
+3. node app.js
+
+
+In node we don't have window or document objects, we have an object called global.
+Varaibles are not added to the global object, they are only in the scope of the curr file.
+
+Every file is a module and the variables and funcs in that file are in scope of that module. 
+Not available outside that module. 
+
+We have node module system:
+- oper. system
+- fs
+- events 
+- http
+
+To reuse modules: 
+- module.exports in the file that I want to get the func of 
+- require('./nameofthefile') - returns the script of the file as an obj that has a func inside
+We can also export just funcs 
+
+- Built in modules
+
+Path module:
+const path = require('path');
+contains: root, dir, base, ext, name
+
+OS module:
+const os = require('os');
+let totalMemory = os.totalmem(); 
+
+File system module:
+const fs = require('fs');
+const files = fs.readdirSyn('./') // gives all the files in the curr dirr 
+
+Event module:
+const EventEmitter = require('events'); // a class, a container for a bunch of methods
+const emitter = new EventEmitter() // gives me an object
+
+emitter.on('messageLogged', function(e){
+    console.log('Listener called');
+});
+
+emitter.emit('messageLogged',{id: 1, url: 'http://'})
+
+HTTP module, making a web server:
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    // code here 
+})
+sever.listen(3000)
+console.log('Listening on port 3000....')

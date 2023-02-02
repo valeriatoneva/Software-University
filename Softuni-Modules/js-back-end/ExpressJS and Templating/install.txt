@@ -1,0 +1,5 @@
+1. npm init -y (initialize an application)
+2. npm i express
+3. npm i nodemon -D
+4. scripts: "start": "nodemon"
+5. npm i express-handlebars
