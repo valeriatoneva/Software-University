@@ -1,0 +1,5 @@
+1. Install MongoDB 
+2. Install Mongoose modulu in Node.js for MongoDB
+- npm init --yes
+- npm install mongoose (not necessary to Install mongodb before)
+- 
