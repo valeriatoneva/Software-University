@@ -5,7 +5,7 @@ const cubeController = require('./controllers/cubeController');
 const homeController = require('./controllers/homeController');
 const accessoryController = require('./controllers/accessoryController');
 
-// for the given method and path, use the current action 
+// for the given method and path, use the an action 
 router.get('/', homeController.getHomePage);
 router.get('/about', homeController.getAboutPage);
 router.get('/404', homeController.getErrorPage);

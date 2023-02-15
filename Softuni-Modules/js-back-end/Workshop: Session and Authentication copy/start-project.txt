@@ -1,3 +1,0 @@
-- npm init --yes
-- npm i 
-- 
