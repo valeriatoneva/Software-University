@@ -1,3 +1,4 @@
 - npm init --yes
 - npm i 
 - npm i express, cookieparser, mongoose 
+- npm start
