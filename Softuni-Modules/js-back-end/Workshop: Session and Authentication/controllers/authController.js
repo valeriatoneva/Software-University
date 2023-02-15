@@ -6,6 +6,18 @@ router.get("/login", (req, res) => {
   res.render("auth/login");
 });
 
+router.post("/login", (req, res) => {
+    const { username, password} = req.body;
+    try{
+
+    const token = await authService.login(username, password)
+    res.cookie('auth', token, { httpOnly: true })
+    }catch(err){
+        console.log(err)
+    }
+    res.redirect('/')
+  });
+
 router.get("/register", (req, res) => {
   res.render("auth/register");
 });
