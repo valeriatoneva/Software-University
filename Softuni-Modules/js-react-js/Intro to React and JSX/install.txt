@@ -1,0 +1,7 @@
+- ext live server 
+- npm init --yes 
+- npm install babel-cli@6 babel-preset-react-app@3
+- npx babel --watch ./src --out-dir ./build --presets react-app/prod // creates new folder build with the same content 
+
+- npm i 
+- npm start
